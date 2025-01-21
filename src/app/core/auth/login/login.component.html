@@ -1,0 +1,19 @@
+
+<div class="login-container">
+    <h1>Login</h1>
+    <form [formGroup]="profileForm">
+        <!-- Email Field -->
+        <div class="form-group">
+            <label for="email">username</label>
+            <input type="email" id="username" name="username" placeholder="Enter your email" required formControlName="username">
+        </div>
+        <!-- Password Field -->
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required formControlName="password">
+        </div>
+    
+    </form>
+        <!-- Submit Button -->
+        <button (click)="submit()">Login</button>
+</div>

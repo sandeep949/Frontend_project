@@ -1,0 +1,105 @@
+/* Background Styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fitseeze.com%2Fblog%2Fthe-ultimate-e-commerce-website-guide%2F&psig=AOvVaw3s_do-1CnYe59So5OFr0LI&ust=1736472390477000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCOD53_i954oDFQAAAAAdAAAAABAK') no-repeat center center fixed; 
+    background-size: cover; /* Ensure the background image covers the entire page */
+    color: #fff; /* Light text for contrast */
+  }
+  
+  /* Container Styling */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background for readability */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Row Styling */
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Adds spacing between product cards */
+  }
+  
+  /* Card Styling */
+  .card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden; /* Ensure content stays within the rounded borders */
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: rgba(255, 255, 255, 0.9); /* Light background with transparency */
+  }
+  
+  .card:hover {
+    transform: scale(1.05); /* Slight zoom effect */
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2); /* Subtle shadow on hover */
+  }
+  
+  /* Card Image */
+  .card-img-top {
+    height: 200px; /* Fixed height for images */
+    object-fit: cover; /* Crop the image to fit */
+  }
+  
+  /* Card Body */
+  .card-body {
+    padding: 16px;
+    text-align: center;
+  }
+  
+  /* Card Title */
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #333;
+  }
+  
+  /* Card Text */
+  .card-text {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 16px;
+  }
+  
+  /* Button Styling */
+  .btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Lift effect */
+  }
+  
+  /* Price Text */
+  .text-muted {
+    font-size: 14px;
+    color: #333; /* Dark text for contrast */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .col-md-4 {
+      flex: 0 0 100%;
+      max-width: 100%; /* Full width on small screens */
+    }
+  }
+  
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .col-md-4 {
+      flex: 0 0 48%; /* Two cards per row on medium screens */
+      max-width: 48%;
+    }
+  }
+  
