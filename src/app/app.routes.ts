@@ -6,29 +6,39 @@ import { UserDashboardComponent } from './core/dashbord/user-dashboard/user-dash
 import { AdminDashboardComponent } from './core/dashbord/admin-dashboard/admin-dashboard.component';
 import { ProductDetailsComponent } from './core/product-details/product-details.component';
 import { CartComponent } from './core/cart/cart.component';
+import { authGuard } from './core/auth/auth/auth.guard';
 
+
+//     {path:"",pathMatch:"full",redirectTo:"login"},
+//   {
+//     path: 'login',
+//     component: LoginComponent,
+//   },
+
+//   {
+//     path: 'register',
+//     component: RegistrationComponent,
+//   },
+//   {
+//     path: 'user-dashboard',
+//     component: UserDashboardComponent,
+//   },
+//   {
+//     path: 'admin-dashboard',
+//     component: AdminDashboardComponent,
+//   },
+//   { path: 'product-details/:id', component: ProductDetailsComponent },
+//   {
+//     path: 'cart',
+//     component: CartComponent,
+//   },
+// ];
 export const routes: Routes = [
-    {path:"",pathMatch:"full",redirectTo:"login"},
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
-
-  {
-    path: 'register',
-    component: RegistrationComponent,
-  },
-  {
-    path: 'user-dashboard',
-    component: UserDashboardComponent,
-  },
-  {
-    path: 'admin-dashboard',
-    component: AdminDashboardComponent,
-  },
-  { path: 'product-details/:id', component: ProductDetailsComponent },
-  {
-    path: 'cart',
-    component: CartComponent,
-  },
+  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Default route
+  { path: 'login', component: LoginComponent },
+  {path:'admin-dashboard',component:AdminDashboardComponent, canActivate:[authGuard]},
+  { path: 'user-dashboard', component: UserDashboardComponent, canActivate: [authGuard] },
+  { path: 'product/:id', component: ProductDetailsComponent, canActivate: [authGuard] },
+  { path: 'cart', component: CartComponent, canActivate: [authGuard] },
+  { path: '**', redirectTo: '/login' }, // Wildcard route for invalid paths
 ];

@@ -1,32 +1,67 @@
 <div class="container mt-4" *ngIf="product; else loading">
-    <div class="card shadow-sm">
-      <div class="row g-0">
-        <!-- Product Image -->
-        <div class="col-md-4">
-          <img
-            [src]="product.image"
-            class="img-fluid rounded-start"
-            alt="{{ product.title }}"
-          />
+  <div class="card shadow-sm">
+    <div class="row g-0">
+      <!-- Product Image -->
+      <div class="col-md-4">
+        <img
+          [src]="product.image"
+          class="img-fluid rounded-start"
+          alt="{{ product.title }}"
+        />
+      </div>
+      <!-- Product Details -->
+      <div class="col-md-8">
+        <div class="card-body">
+        
+          <h5 class="card-title">{{ product.title }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+          <p class="card-text">
+            <strong>Price:</strong> {{ product.price | currency }}
+          </p>
+
+          <!-- Add to Cart Button -->
+          <button class="btn btn-primary me-2" (click)="addToCart(product)">
+            Add to Cart
+          </button>
+
+          <!-- Go to Cart Button -->
+          <button class="btn btn-secondary" (click)="goToCart()">
+            My Cart
+          </button>
         </div>
-        <!-- Product Details -->
-        <div class="col-md-8">
+      </div>
+    </div>
+  </div>
+
+  <!-- Status Message -->
+  <div *ngIf="statusMessage" class="alert alert-info mt-3">
+    {{ statusMessage }}
+  </div>
+
+  <!-- Display Cart Items -->
+  <div class="mt-4" *ngIf="cartItems.length > 0; ">
+    <h3>Your Cart</h3>
+    <div class="row g-4">
+      <div class="col-md-4" *ngFor="let item of cartItems">
+        <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{ product.title }}</h5>
-            <p class="card-text">{{ product.description }}</p>
-            <p class="card-text">
-              <strong>Price:</strong> {{ product.price | currency }}
-            </p>
-            <button class="btn btn-primary" (click)="addToCart(product)">
-              Add to Cart
-            </button>
+       
+            <h5 class="card-title">{{ item.productName }}</h5>
+            <p class="card-text">Quantity: {{ item.quantity }}</p>
+            <p class="card-text">Price: {{ item.price | currency }}</p>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
-  <ng-template #loading>
-    <p>Loading product details...</p>
-  </ng-template>
-  
+
+  <!-- Empty Cart Message -->
+  <!-- <ng-template #emptyCart>
+    <p class="text-muted">Your cart is empty.</p>
+  </ng-template> -->
+</div>
+
+<!-- Loading Message -->
+<ng-template #loading>
+  <p>Loading product details...</p>
+</ng-template>

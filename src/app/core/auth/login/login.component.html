@@ -1,19 +1,41 @@
-
 <div class="login-container">
-    <h1>Login</h1>
-    <form [formGroup]="profileForm">
-        <!-- Email Field -->
+    <!-- Welcome Back Section -->
+    <div class="welcome-back">
+      <h1>Welcome Back!</h1>
+      <p class="subtitle">We're glad to see you again. Please login to continue.</p>
+    </div>
+  
+    <!-- Login Box -->
+    <div class="login-box">
+      <h2>Login</h2>
+      <form [formGroup]="profileForm" class="login-form">
+        <!-- Username Field -->
         <div class="form-group">
-            <label for="email">username</label>
-            <input type="email" id="username" name="username" placeholder="Enter your email" required formControlName="username">
+          <label for="username">Username</label>
+          <input
+            type="email"
+            id="username"
+            name="username"
+            placeholder="Enter your email"
+            required
+            formControlName="username"
+          />
         </div>
         <!-- Password Field -->
         <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required formControlName="password">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+            formControlName="password"
+          />
         </div>
-    
-    </form>
         <!-- Submit Button -->
-        <button (click)="submit()">Login</button>
-</div>
+        <button type="button" class="btn-login" (click)="submit()">Login</button>
+      </form>
+    </div>
+  </div>
+  

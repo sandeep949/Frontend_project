@@ -1,10 +1,9 @@
-<p>user-dashboard works!</p>
 
 <div class="container mt-4">
   <!-- Search Bar -->
   <div class="row mb-4">
     <div class="col-12">
-      <input
+      <input style="width: 400px;"
         type="text"
         class="form-control"
         placeholder="Search products..."
@@ -18,12 +17,8 @@
     <!-- Loop through products returned by the API -->
     <div class="col-md-4" *ngFor="let product of products">
       <div class="card mb-4 shadow-sm">
-        <img
-          *ngIf="product.image"
-          [src]="product.image"
-          class="card-img-top"
-          [alt]="product.title"
-        />
+        <img [src]="'data:image/jpg;base64,'+product.imageData" />
+       
         <div class="card-body">
           <h5 class="card-title">{{ product.title }}</h5>
           <p class="card-text">

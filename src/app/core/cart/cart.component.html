@@ -1,29 +1,32 @@
-<p>cart works!</p>
+<div class="cart-container">
+  <h1>Your Cart</h1>
 
-
-<div class="container mt-4">
-  <h2>Your Cart</h2>
-
-  <!-- Display cart items -->
+  <!-- Display Cart Items -->
   <div *ngIf="products.length > 0; else emptyCart">
-    <div class="row g-4">
-      <div class="col-md-4" *ngFor="let product of products">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ product.productName }}</h5>
-            <p class="card-text">Quantity: {{ product.quantity }}</p>
-            <p class="card-text">Price: {{ product.price | currency }}</p>
-          </div>
-        </div>
+    <div class="cart-item" *ngFor="let item of products">
+      <div class="item-details">
+        <h3>{{ item.productName }}</h3>
+        <p>Quantity: {{ item.quantity }}</p>
+        <p>Price: {{ item.price | currency }}</p>
       </div>
+      <button class="btn btn-danger" (click)="removeFromCart(item.productId)">
+        Remove
+      </button>
     </div>
   </div>
 
-  <!-- Display message if cart is empty -->
+  <!-- Empty Cart Message -->
   <ng-template #emptyCart>
     <p>Your cart is empty.</p>
   </ng-template>
+
+  <!-- Order Placement -->
+  <div *ngIf="products.length > 0" class="place-order">
+    <button class="btn btn-primary" (click)="placeOrder()">Place Order</button>
+  </div>
+
+  <!-- Status Message -->
+  <div *ngIf="statusMessage" class="alert alert-info">
+    {{ statusMessage }}
+  </div>
 </div>
-
-
-  

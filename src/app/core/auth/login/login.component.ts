@@ -30,13 +30,19 @@ export class LoginComponent implements OnInit {
 
         // Store the access token
         localStorage.setItem('token', res.access_token);
+        let token:any = JSON.parse(atob(res.access_token.split('.')[1]));
 
         // Optionally store the refresh token (if needed)
         localStorage.setItem('refresh_token', res.refresh_token);
 
         // Reset the form and navigate to the dashboard
         this.profileForm.reset();
-        this.router.navigate(['/user-dashboard']);
+        console.log(token);
+        if(token.role == "SELLER"){
+          this.router.navigate(['/admin-dashboard']);
+        }else{
+          this.router.navigate(['/user-dashboard']);
+        }
       }
     }
     )
