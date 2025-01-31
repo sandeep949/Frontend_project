@@ -1,64 +1,97 @@
-<!-- <p>admin-dashboard works!</p> -->
-
 <div class="container mt-4">
-  <h2 class="mb-4 text-center">Add Product</h2>
-  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-      <div class="row">
-          <!-- User ID Field -->
-          <div class="mb-3 col-md-3">
-              <label for="userId" class="form-label">User ID</label>
-              <input type="number" id="userId" class="form-control" formControlName="userId" placeholder="Enter User ID" required />
-          </div>
+    <h2 class="mb-4 text-center">Add Product</h2>
+    
+    <!-- Product Form -->
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <!-- User ID Field (Auto-Filled from Token) -->
+            <!-- <div class="mb-3 col-md-3">
+                <label for="userId" class="form-label">User ID</label>
+                <input type="number" id="userId" class="form-control" formControlName="userId" placeholder="User ID (Auto-filled)" readonly />
+            </div> -->
+  
+            <!-- Name Field -->
+            <div class="mb-3 col-md-3">
+                <label for="name" class="form-label">Product Name</label>
+                <input type="text" id="name" class="form-control" formControlName="name" placeholder="Enter product name" required />
+            </div>
+  
+            <!-- Description Field -->
+            <div class="mb-3 col-md-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" class="form-control" formControlName="description" rows="3" placeholder="Enter product description" required></textarea>
+            </div>
+  
+            <!-- Price Field -->
+            <div class="mb-3 col-md-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" id="price" class="form-control" formControlName="price" placeholder="Enter product price" required />
+            </div>
+  
+            <!-- Quantity Field -->
+            <div class="mb-3 col-md-3">
+                <label for="quantity" class="form-label">Quantity</label>
+                <input type="number" id="quantity" class="form-control" formControlName="quantity" placeholder="Enter quantity" required />
+            </div>
+  
+            <!-- Category Field -->
+            <div class="mb-3 col-md-3">
+                <label for="category" class="form-label">Category</label>
+                <select id="category" class="form-select" formControlName="category" required>
+                    <option value="" disabled>Select category</option>
+                    <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+                </select>
+            </div>
+  
+            <!-- Image Upload Field -->
+            <div class="mb-3 col-md-6">
+                <label for="image" class="form-label">Upload Product Image</label>
+                <input type="file" id="image" class="form-control" (change)="onFileSelected($event)" accept="image/*" required />
+            </div>
+  
+            <!-- Image Preview -->
+            <div class="mb-3 col-md-6" *ngIf="selectedImage">
+                <label class="form-label">Image Preview</label>
+                <img [src]="selectedImage" alt="Product Image Preview" class="img-thumbnail" style="max-width: 200px; max-height: 200px;" />
+            </div>
+        </div>
+  
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success">Add Product</button>
+    </form>
+  
+    <!-- Fetch Products Button -->
+    <button type="button" class="btn btn-primary mt-3" (click)="fetchProducts()">View Products</button>
 
-          <!-- Name Field -->
-          <div class="mb-3 col-md-3">
-              <label for="name" class="form-label">Product Name</label>
-              <input type="text" id="name" class="form-control" formControlName="name" placeholder="Enter product name" required />
-          </div>
-
-          <!-- Description Field -->
-          <div class="mb-3 col-md-3">
-              <label for="description" class="form-label">Description</label>
-              <textarea id="description" class="form-control" formControlName="description" rows="3" placeholder="Enter product description" required></textarea>
-          </div>
-
-          <!-- Price Field -->
-          <div class="mb-3 col-md-3">
-              <label for="price" class="form-label">Price</label>
-              <input type="number" id="price" class="form-control" formControlName="price" placeholder="Enter product price" required />
-          </div>
-
-          <!-- Quantity Field -->
-          <div class="mb-3 col-md-3">
-              <label for="quantity" class="form-label">Quantity</label>
-              <input type="number" id="quantity" class="form-control" formControlName="quantity" placeholder="Enter quantity" required />
-          </div>
-
-          <!-- Category Field -->
-          <div class="mb-3 col-md-3">
-              <label for="category" class="form-label">Category</label>
-              <select id="category" class="form-select" formControlName="category" required>
-                  <option value="" disabled>Select category</option>
-                  <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
-              </select>
-          </div>
-
-          <!-- Image Upload Field -->
-          <div class="mb-3 col-md-6">
-              <label for="image" class="form-label">Upload Product Image</label>
-              <input type="file" id="image" class="form-control" (change)="onFileSelected($event)" accept="image/*" required />
-          </div>
-
-          <!-- Image Preview -->
-          <div class="mb-3 col-md-6" *ngIf="selectedImage">
-              <label class="form-label">Image Preview</label>
-              <img [src]="selectedImage" alt="Product Image Preview" class="img-thumbnail" style="max-width: 200px; max-height: 200px;" />
-          </div>
-      </div>
-
-      <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary">Add Product</button>
-
-  </form>
-  <button type="button" class="btn btn-primary">View Product</button>
+<!-- Display products only after fetching -->
+<div class="mt-4" *ngIf="fetched">
+    <h3>Your Products</h3>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Category</th>
+                <th>Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of products">
+                <td>{{ product.id }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.description }}</td>
+                <td>${{ product.price }}</td>
+                <td>{{ product.quantity }}</td>
+                <td>{{ product.category }}</td>
+                <td><img *ngIf="product.imageData" [src]="'data:image/png;base64,' + product.imageData" alt="Product Image" width="50"></td>
+            </tr>
+        </tbody>
+    </table>
 </div>
+    <!-- No Products Message -->
+    <p *ngIf=" products.length === 0 && fetched">No products found for this user.</p>
+  </div>
+  

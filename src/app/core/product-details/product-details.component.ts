@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from '../../services/common.service';
 import { Token } from '@angular/compiler';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-details',
@@ -16,10 +17,13 @@ export class ProductDetailsComponent implements OnInit {
   public tokenDetails: any;
   statusMessage: string;
   cartItems: any[] = [];
+
   constructor(private route: ActivatedRoute, private service: CommonService, private router: Router) {}
 
   ngOnInit(): void {
   const token = localStorage.getItem('token');
+
+  
   
   if (!token) {
     console.error('Token not found. Redirecting to login.');
@@ -37,6 +41,7 @@ export class ProductDetailsComponent implements OnInit {
     this.router.navigate(['/login']);
     return;
   }
+  
 
   const productId = this.route.snapshot.paramMap.get('id');
   if (productId) {
@@ -44,22 +49,38 @@ export class ProductDetailsComponent implements OnInit {
   }
 }
 
-  
 
   // Fetch product details by ID
-  fetchProductDetails(productId: string) {
+  
+  fetchProductDetails(productId: string): void {
     this.service.get(`products/${productId}`).subscribe(
       (res) => {
-        this.product = res; // Assign the fetched product to the product variable
-        this.isLoading = false; // Stop the loading spinner
+        console.log('Fetched product details:', res); // ✅ Log API response
+        this.product = res;
+        this.isLoading = false;
+  
+        // Debugging: Check if imageData exists
+        if (this.product.imageData) {
+          console.log('Raw Image Data:', this.product.imageData);
+  
+          // ✅ Correct Base64 encoding
+          this.product.imageSrc = `data:image/png;base64,${this.product.imageData}`;
+          console.log('Generated Image Src:', this.product.imageSrc);
+        } else {
+          console.warn('No image data found for this product.');
+        }
       },
       (error) => {
         console.error('Error fetching product details:', error);
-        this.isLoading = false; // Stop the loading spinner even on error
+        this.isLoading = false;
       }
     );
   }
-
+  
+  
+  
+  
+  
   addToCart(product: any) {
     let token:any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
     console.log(token.jti)

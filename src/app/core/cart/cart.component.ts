@@ -30,6 +30,7 @@ export class CartComponent implements OnInit {
   statusMessage: string;
   placedOrder: any;
   isOrderPlaced: boolean = false ;
+isLoading: any;
   constructor(private service: CommonService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
@@ -40,19 +41,43 @@ export class CartComponent implements OnInit {
 
   // Fetch the cart items by userId from the API
   fetchCartItems(): void {
-    let token:any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
-    console.log(token)
+    let token: any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
+    console.log(token);
+
     this.service.get(`cart/${token.jti}`).subscribe(
       (res: any) => {
-        this.products = res.items; // Assign the fetched cart items
+        if (!res.items || res.items.length === 0) {
+          console.warn("Cart is empty or response format is incorrect.");
+          this.products = [];
+          return;
+        }
+        
+        this.products = res.items.map((item: any) => {
+          // ✅ Ensure `product` exists before accessing `imageData`
+          if (item.product && item.product.imageData) {
+            item.product.imageSrc = `data:image/png;base64,${item.product.imageData}`;
+          } else {
+            console.warn(`No image data for product:`, item);
+            item.product = item.product || {}; // Ensure product exists
+            item.product.imageSrc = 'assets/default-image.png'; // Use a placeholder image
+          }
+          return item;
+        });
+
         console.log('Cart items fetched successfully:', this.products);
       },
       (error) => {
         console.error('Error fetching cart items:', error);
-        //alert('Failed to load cart items. Please try again later.');
       }
     );
-  }
+}
+
+
+onImageError(product: any) {
+  console.error(`Error loading image for product: ${product.name}`);
+  product.imageSrc = 'assets/default-image.png'; // Use a placeholder image
+}
+
   removeFromCart(productId: string): void {
     // Decode the token to extract userId
     let token: any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
@@ -112,8 +137,10 @@ export class CartComponent implements OnInit {
         // Show a success message
         this.statusMessage = 'Order placed successfully!';
         this.isOrderPlaced = true;
+        this.fetchOrders();
         this.cdr.detectChanges();
         console.log('isOrderPlaced:', this.isOrderPlaced);
+
         
        
       },

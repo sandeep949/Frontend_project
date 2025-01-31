@@ -43,6 +43,7 @@ export class UserDashboardComponent implements OnInit {
   // // Handle "View Details" button click
   
   viewProductDetails(product: any) {
+    
     this.router.navigate(['/product/', product.id]);
   }
   searchProducts() {

@@ -70,6 +70,7 @@ import { Observable, ReplaySubject } from 'rxjs';
   styleUrls: ['./admin-dashboard.component.scss'],
 })
 export class AdminDashboardComponent implements OnInit {
+[x: string]: any;
   productForm!: FormGroup; // Reactive form
   products: any[] = []; // To store products fetched based on user ID
   categories: string[] = ['Electronics', 'Clothing', 'Books', 'Home Appliances']; // Example categories
@@ -88,12 +89,12 @@ export class AdminDashboardComponent implements OnInit {
   }
   
 
-  constructor(private fb: FormBuilder, private commonService: CommonService) {}
+  constructor(private service: CommonService ,private fb: FormBuilder, private commonService: CommonService) {}
 
   ngOnInit(): void {
     // Initialize the form with fields matching the JSON structure
     this.productForm = this.fb.group({
-      userId: [0, [Validators.required, Validators.min(1)]], // Ensure User ID is required
+      //userId: [0, [Validators.required, Validators.min(1)]], // Ensure User ID is required
       name: ['', Validators.required],
       description: ['', Validators.required],
       price: [0, [Validators.required, Validators.min(1)]],
@@ -101,20 +102,12 @@ export class AdminDashboardComponent implements OnInit {
       category: ['', Validators.required],
       image: [null, Validators.required], // Add image control
     });
+    
   }
 public blob;
   onImageChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    // if (input.files && input.files.length > 0) {
-    //   this.selectedImage = input.files[0];
-  
-    //   // Show the image preview
-    //   const reader = new FileReader();
-    //   reader.onload = (e: any) => {
-    //     this.selectedImage = e.target.result; // Show preview
-    //   };
-    //   reader.readAsDataURL(this.selectedImage);
-    // }
+   
     this.selectedImage = input.files[0];
     
       const reader = new FileReader();
@@ -148,23 +141,12 @@ public blob;
     return result;
   }
   onSubmit(): void {
-    // if (this.productForm.invalid) {
-    //   console.error('Form validation errors:', this.getFormValidationErrors());
-    //   alert('Please fill all required fields correctly.');
-    //   return;
-    // }
-  
-    // if (!this.selectedImage) {
-    //   alert('Please select an image.');
-    //   return;
-    // }
-  
     
-   
+    
     console.log(this.base64Output);
     let obj = {
       
-        "userId": this.productForm.value.userId,
+        //"userId": this.productForm.value.userId,
         "name": this.productForm.value.name,
         "description": this.productForm.value.description,
         "price": this.productForm.value.price,
@@ -189,6 +171,45 @@ public blob;
       }
     );
   }
+  fetched: boolean = false;
+  fetchProducts(): void {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem('token');
+  
+    if (!token) {
+      console.error('Token not found in localStorage');
+      return;
+    }
+  
+    try {
+      // Decode the JWT Token to get the userId
+      const tokenPayload: any = JSON.parse(atob(token.split('.')[1]));
+      const userId = tokenPayload.jti; // Adjust based on how `userId` is stored in the token
+  
+      if (!userId) {
+        console.error('User ID not found in token');
+        alert('Invalid token. Please log in again.');
+        return;
+      }
+  
+      // Make API call to fetch products by userId
+      this.service.get(`products/user/${userId}`).subscribe(
+        (res: any) => {
+          this.products = res;
+          this.fetched = true; // Assign fetched products
+          console.log('Products fetched successfully:', this.products);
+        },
+        (error) => {
+          console.error('Error fetching products:', error);
+        
+        }
+      );
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      
+    }
+  }
+  
 }
 
 

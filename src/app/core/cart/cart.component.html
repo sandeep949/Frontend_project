@@ -1,32 +1,39 @@
 <div class="cart-container">
-  <h1>Your Cart</h1>
+  <h2>Your Cart</h2>
 
-  <!-- Display Cart Items -->
-  <div *ngIf="products.length > 0; else emptyCart">
-    <div class="cart-item" *ngFor="let item of products">
-      <div class="item-details">
-        <h3>{{ item.productName }}</h3>
-        <p>Quantity: {{ item.quantity }}</p>
-        <p>Price: {{ item.price | currency }}</p>
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="loader">Loading cart items...</div>
+
+  <!-- Cart Items -->
+  <div *ngIf="!isLoading && products.length > 0">
+    <div *ngFor="let item of products" class="cart-item">
+      <!-- Product Image -->
+      <img *ngIf="item.product?.imageSrc" 
+           [src]="item.product.imageSrc" 
+           alt="Product Image" 
+           width="100" 
+           height="100" 
+           (error)="onImageError(item.product)" />
+
+      <!-- Product Details -->
+      <div class="cart-details">
+        <h3>{{ item.product.name }}</h3>
+        <p><strong>Price:</strong> ${{ item.product.price }}</p>
+        <p><strong>Quantity:</strong> {{ item.quantity }}</p>
       </div>
-      <button class="btn btn-danger" (click)="removeFromCart(item.productId)">
-        Remove
-      </button>
+
+      <!-- Remove Button -->
+      <button class="remove-btn" (click)="removeFromCart(item.product.id)">Remove</button>
     </div>
   </div>
 
   <!-- Empty Cart Message -->
-  <ng-template #emptyCart>
+  <div *ngIf="!isLoading && products.length === 0" class="empty-cart">
     <p>Your cart is empty.</p>
-  </ng-template>
-
-  <!-- Order Placement -->
-  <div *ngIf="products.length > 0" class="place-order">
-    <button class="btn btn-primary" (click)="placeOrder()">Place Order</button>
   </div>
 
-  <!-- Status Message -->
-  <div *ngIf="statusMessage" class="alert alert-info">
-    {{ statusMessage }}
+  <!-- Checkout Button -->
+  <div *ngIf="products.length > 0">
+    <button class="checkout-btn" (click)="placeOrder()">Place order</button>
   </div>
 </div>
