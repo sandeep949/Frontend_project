@@ -38,7 +38,7 @@ isLoading: any;
     this.tokenDetails = localStorage.getItem('token'); // Assuming userId is stored during login
     this.fetchCartItems();
   }
-
+public totalPrice = 0;
   // Fetch the cart items by userId from the API
   fetchCartItems(): void {
     let token: any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
@@ -55,12 +55,16 @@ isLoading: any;
         this.products = res.items.map((item: any) => {
           // ✅ Ensure `product` exists before accessing `imageData`
           if (item.product && item.product.imageData) {
+            
+          
             item.product.imageSrc = `data:image/png;base64,${item.product.imageData}`;
           } else {
             console.warn(`No image data for product:`, item);
             item.product = item.product || {}; // Ensure product exists
             item.product.imageSrc = 'assets/default-image.png'; // Use a placeholder image
           }
+          console.log(item.price)
+          this.totalPrice += +item.price
           return item;
         });
 
@@ -96,6 +100,7 @@ onImageError(product: any) {
         // Show a success message
         this.statusMessage = 'Item removed from the cart!';
         this.cdr.detectChanges();
+        this.fetchCartItems();
       },
       (error) => {
         console.error('Error deleting item from cart:', error);
@@ -137,7 +142,7 @@ onImageError(product: any) {
         // Show a success message
         this.statusMessage = 'Order placed successfully!';
         this.isOrderPlaced = true;
-        this.fetchOrders();
+        // this.fetchOrders();
         this.cdr.detectChanges();
         console.log('isOrderPlaced:', this.isOrderPlaced);
 
@@ -156,17 +161,17 @@ onImageError(product: any) {
   
 
   // Fetch all orders for the current user
-  fetchOrders(): void {
-    let token: any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
-    this.service.get(`order/${token.jti}`).subscribe(
-      (res: any) => {
-        this.orders = res; // Assign the fetched orders
-        console.log('Orders fetched successfully:', this.orders);
-      },
-      (error) => {
-        console.error('Error fetching orders:', error);
-        alert('Failed to load orders. Please try again later.');
-      }
-    );
-  }
+  // fetchOrders(): void {
+  //   let token: any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
+  //   this.service.get(`order/${token.jti}`).subscribe(
+  //     (res: any) => {
+  //       this.orders = res; // Assign the fetched orders
+  //       console.log('Orders fetched successfully:', this.orders);
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching orders:', error);
+  //       alert('Failed to load orders. Please try again later.');
+  //     }
+  //   );
+  // }
 }

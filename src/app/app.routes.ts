@@ -7,6 +7,7 @@ import { AdminDashboardComponent } from './core/dashbord/admin-dashboard/admin-d
 import { ProductDetailsComponent } from './core/product-details/product-details.component';
 import { CartComponent } from './core/cart/cart.component';
 import { authGuard } from './core/auth/auth/auth.guard';
+import { OrdersComponent } from './core/orders/orders.component';
 
 
 //     {path:"",pathMatch:"full",redirectTo:"login"},
@@ -36,9 +37,12 @@ import { authGuard } from './core/auth/auth/auth.guard';
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Default route
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegistrationComponent },
   {path:'admin-dashboard',component:AdminDashboardComponent, canActivate:[authGuard]},
   { path: 'user-dashboard', component: UserDashboardComponent, canActivate: [authGuard] },
   { path: 'product/:id', component: ProductDetailsComponent, canActivate: [authGuard] },
   { path: 'cart', component: CartComponent, canActivate: [authGuard] },
+  { path: 'orders', component: OrdersComponent, canActivate: [authGuard] },
+
   { path: '**', redirectTo: '/login' }, // Wildcard route for invalid paths
 ];

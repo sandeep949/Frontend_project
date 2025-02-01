@@ -86,7 +86,7 @@ export class ProductDetailsComponent implements OnInit {
     console.log(token.jti)
     const endpoint = 'cart';
     this.statusMessage = ''; // The relative endpoint for the cart API
-    const body = { productId: product.id, quantity: 1, userId: token.jti, price: product.price }; // The request payload
+    const body = { productId: product.id, quantity: 1, userId: token.jti, price: product.price,imageSrc:product.imageSrc }; // The request payload
   
     this.service.post<any>(body, `cart/${token.jti}`).subscribe(
       (res) => {
