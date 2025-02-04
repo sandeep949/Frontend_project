@@ -16,12 +16,11 @@ constructor(private service: CommonService) {
   this.fetchOrders();
 }
 
-  fetchOrders(): void {
+fetchOrders(): void {
     let token: any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
     this.service.get(`order/${token.jti}`).subscribe(
       (res: any) => {
         this.orders = res; // Assign the fetched orders
-        console.log(this.orders)
         console.log('Orders fetched successfully:', this.orders);
       },
       (error) => {
@@ -30,5 +29,6 @@ constructor(private service: CommonService) {
       }
     );
   }
-
 }
+
+

@@ -62,20 +62,22 @@
   
     <!-- Fetch Products Button -->
     <button type="button" class="btn btn-primary mt-3" (click)="fetchProducts()">View Products</button>
+    
 
 <!-- Display products only after fetching -->
 <div class="mt-4" *ngIf="fetched">
     <h3>Your Products</h3>
     <table class="table table-bordered">
-        <thead class="table-dark">
+        <thead>
             <tr>
-                <th>ID</th>
+                <th>Product ID</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
-                <th>Quantity</th>
+                <th>Quantity</th> <!-- ✅ Updated Quantity Display -->
                 <th>Category</th>
-                <th>Image</th>
+                <th>Actions</th>
+                <th>image</th>
             </tr>
         </thead>
         <tbody>
@@ -84,9 +86,14 @@
                 <td>{{ product.name }}</td>
                 <td>{{ product.description }}</td>
                 <td>${{ product.price }}</td>
-                <td>{{ product.quantity }}</td>
+                <td>{{ product.quantity }}</td> <!-- ✅ Shows reduced quantity dynamically -->
                 <td>{{ product.category }}</td>
                 <td><img *ngIf="product.imageData" [src]="'data:image/png;base64,' + product.imageData" alt="Product Image" width="50"></td>
+               
+                    <button class="btn btn-danger" (click)="removeProduct(product.id)">
+                        Remove
+                    </button>
+               
             </tr>
         </tbody>
     </table>

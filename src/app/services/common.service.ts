@@ -35,6 +35,10 @@ public url:string="http://localhost:9090/";
       }),
     });
   }
+
+   public put<T>(body: any, endpoint: string): Observable<T> {
+    return this.http.put<T>(`${this.url}/${endpoint}`, body);
+  }
   public returnToken():String{
     return localStorage.getItem("token");
   }

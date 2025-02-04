@@ -31,7 +31,8 @@ export class CartComponent implements OnInit {
   placedOrder: any;
   isOrderPlaced: boolean = false ;
 isLoading: any;
-  constructor(private service: CommonService, private cdr: ChangeDetectorRef) {}
+  cdr: any;
+  constructor(private service: CommonService) {}
 
   ngOnInit(): void {
     // Retrieve userId from local storage
@@ -82,6 +83,43 @@ onImageError(product: any) {
   product.imageSrc = 'assets/default-image.png'; // Use a placeholder image
 }
 
+
+calculateTotalPrice() {
+  this.totalPrice = this.products.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0);
+}
+
+updateQuantity(item: any, event: Event): void {
+  const newQuantity = Number((event.target as HTMLSelectElement).value);
+  
+  if (newQuantity < 1) return; // Prevent invalid values
+
+  let token: any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
+  const userId = token.jti;
+
+  // API endpoint to update the quantity
+  const endpoint = `cart/update/${userId}/${item.productId}`;
+
+  // Request payload
+  const payload = {
+    quantity: Number(newQuantity),
+  };
+
+  this.service.put(payload,endpoint).subscribe(
+    () => {
+      console.log(`Quantity updated for product ${item.productId} to ${newQuantity}`);
+      item.quantity = newQuantity;
+      this.calculateTotalPrice();
+     
+    },
+    (error) => {
+      console.error('Error updating quantity:', error);
+    }
+  );
+}
+
+
+
+
   removeFromCart(productId: string): void {
     // Decode the token to extract userId
     let token: any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
@@ -99,7 +137,7 @@ onImageError(product: any) {
   
         // Show a success message
         this.statusMessage = 'Item removed from the cart!';
-        this.cdr.detectChanges();
+        
         this.fetchCartItems();
       },
       (error) => {
@@ -113,65 +151,43 @@ onImageError(product: any) {
   
 
   placeOrder(): void {
-    // Decode the token to extract userId
     let token: any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
-    const userId = token.jti; // Extract userId from the token
+    const userId = token.jti;
   
-    // Prepare the order payload
     const orderPayload = {
       items: this.products.map((item) => ({
         productId: item.productId,
         quantity: item.quantity,
       })),
+      totalPrice: this.totalPrice, // ✅ Include total price in the order
+      orderDate: new Date().toISOString(), // ✅ Store current date
     };
   
-    // Construct the endpoint with the userId in the path
     const endpoint = `order/place/${userId}`;
   
-    // Make the API call
     this.service.post<any>(orderPayload, endpoint).subscribe(
       (res) => {
         console.log('Order placed successfully:', res);
+        
+        // ✅ Store order details, including the date and total price
+        this.placedOrder = {
+          ...res,
+          totalPrice: this.totalPrice, // ✅ Store total price in order details
+          orderDate: new Date().toLocaleString(), // Format date for UI
+        };
   
-        // Clear the cart after successful order placement
         this.products = [];
-  
-        // Store the order details to display in the UI
-        this.placedOrder = res;
-  
-        // Show a success message
+        this.totalPrice = 0; // Reset total price after placing an order
         this.statusMessage = 'Order placed successfully!';
         this.isOrderPlaced = true;
-        // this.fetchOrders();
         this.cdr.detectChanges();
-        console.log('isOrderPlaced:', this.isOrderPlaced);
-
-        
-       
       },
+      
       (error) => {
         console.error('Error placing order:', error);
-  
-        // Show an error message
         this.statusMessage = 'Failed to place order. Please try again.';
       }
     );
   }
   
-  
-
-  // Fetch all orders for the current user
-  // fetchOrders(): void {
-  //   let token: any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
-  //   this.service.get(`order/${token.jti}`).subscribe(
-  //     (res: any) => {
-  //       this.orders = res; // Assign the fetched orders
-  //       console.log('Orders fetched successfully:', this.orders);
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching orders:', error);
-  //       alert('Failed to load orders. Please try again later.');
-  //     }
-  //   );
-  // }
-}
+}  

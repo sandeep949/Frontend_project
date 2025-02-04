@@ -209,6 +209,28 @@ public blob;
       
     }
   }
+
+  // 
+  removeProduct(productId: string): void {
+    if (!confirm('Are you sure you want to reduce quantity or remove this product?')) {
+      return;
+    }
+  
+    this.service.delete(`products/${productId}`).subscribe(
+      (updatedProducts: any) => {
+        console.log(`Product ${productId} quantity updated successfully`);
+        this.products = updatedProducts; // ✅ Update UI with new DB state
+        alert('Product quantity updated successfully!');
+      },
+      (error) => {
+        console.error('Error updating/removing product:', error);
+        alert('Failed to update product. Please try again.');
+      }
+    );
+  }
+  
+  
+  
   
 }
 
