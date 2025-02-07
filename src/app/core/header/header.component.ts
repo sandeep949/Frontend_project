@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Route, Router, RouterModule } from '@angular/router';
 import { CommonService } from '../../services/common.service';
 
 @Component({
@@ -13,10 +13,13 @@ export class HeaderComponent {
 [x: string]: any;
 public tokenDetails: any;
 public orders :any;
-constructor(private service: CommonService) {
-  this.tokenDetails = localStorage.getItem('token');
+constructor(private service: CommonService, private router:Router) {
+  this.tokenDetails = sessionStorage.getItem('token');
 }
-
+  public isLogged = false;
+  ngOnInit(): void {
+      this.isLogged = !!this.service.returnToken();
+  }
 // fetchOrders(): void {
 //   let token: any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
 //   this.service.get(`order/${token.jti}`).subscribe(
@@ -33,10 +36,10 @@ constructor(private service: CommonService) {
 
 
 logout(): void{
-  localStorage.removeItem('token');
-  localStorage.removeItem('refresh_token');
+  sessionStorage.removeItem('token');
+  sessionStorage.removeItem('refresh_token');
 
-  this['router'].navigate(['/login']);
+  this.router.navigate(['/login']);
 }
 
 }

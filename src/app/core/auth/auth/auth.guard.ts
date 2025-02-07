@@ -11,7 +11,7 @@ export class authGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(): boolean {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     if (token) {
       console.log("AuthGuard: Token found, access granted.");
       return true;

@@ -6,7 +6,7 @@
 >
   Cart
 </a> -->
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary" *ngIf="isLogged">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Navbar</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,7 +17,7 @@
           <a class="nav-link active" aria-current="page" href="javascrpi:void(0)" routerLink="/user-dashboard" routerLinkActive="router-link-active">Home</a>
            <a class="nav-link" href="javascript:void(0)" routerLink="/orders" routerLinkActive="router-link-active">ViewOrders</a>
           <a class="nav-link" href="javascript:void(0)" routerLink="/cart" routerLinkActive="router-link-active">Cart</a>
-          <a class="nav-link" href="javascript:void(0)" routerLink="/login" routerLinkActive="router-link-active">logout</a>
+          <a class="nav-link" href="javascript:void(0)" (click)="logout()">logout</a>
         </div>
       </div>
     </div>

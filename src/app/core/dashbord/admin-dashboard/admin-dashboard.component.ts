@@ -173,11 +173,11 @@ public blob;
   }
   fetched: boolean = false;
   fetchProducts(): void {
-    // Retrieve the token from localStorage
-    const token = localStorage.getItem('token');
+    // Retrieve the token from sessionStorage
+    const token = sessionStorage.getItem('token');
   
     if (!token) {
-      console.error('Token not found in localStorage');
+      console.error('Token not found in sessionStorage');
       return;
     }
   

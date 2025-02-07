@@ -14,7 +14,7 @@ public url:string="http://localhost:9090/";
   //   return this.http.post(this.url+url,body);
   // }
   // public getAuthHeaders(): HttpHeaders {
-  //   const token = localStorage.getItem('token');
+  //   const token = sessionStorage.getItem('token');
   //   return new HttpHeaders({
   //     Authorization: `Bearer ${token}`,
   //   });
@@ -31,7 +31,7 @@ public url:string="http://localhost:9090/";
       body: body,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('token')}`, // Include token if required
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`, // Include token if required
       }),
     });
   }
@@ -40,7 +40,7 @@ public url:string="http://localhost:9090/";
     return this.http.put<T>(`${this.url}/${endpoint}`, body);
   }
   public returnToken():String{
-    return localStorage.getItem("token");
+    return sessionStorage.getItem("token");
   }
   public extractToken(){
     let token:any = JSON.parse(atob(this.returnToken().split('.')[1]));

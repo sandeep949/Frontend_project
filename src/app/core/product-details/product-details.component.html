@@ -1,37 +1,40 @@
 <div class="container">
   <!-- Loader -->
-  <div *ngIf="isLoading" class="loader">
-    Loading product details...
-  </div>
+  <div *ngIf="isLoading" class="loader">Loading product details...</div>
 
   <!-- Product Details -->
-  <div *ngIf="!isLoading && product" class="product-details">
+  <div *ngIf="!isLoading && product" class="product-details mt-2">
     <!-- Product Image -->
-   
-    
 
     <!-- Product Information -->
-    <div class="details-container">
-      <img *ngIf="product?.imageSrc" [src]="product.imageSrc" alt="Product Image" width="200" />
-
-      <h2>{{ product.name }}</h2>
-      <p class="description">{{ product.description }}</p>
-      <p class="price"><strong>Price:</strong> ${{ product.price }}</p>
-
-      <!-- Add to Cart Button -->
-      <button (click)="addToCart(product)" class="btn btn-primary">
-        Add to Cart
-      </button>
-
-      <!-- Go to Cart Button -->
-      <button (click)="goToCart()" class="btn btn-secondary">
-        View Cart
-      </button>
-
-      <!-- Status Message -->
-      <p *ngIf="statusMessage" class="status-message">
-        {{ statusMessage }}
-      </p>
+    <div class="details-container row">
+      <div class="col-8 product-image-container" >
+        <img *ngIf="product?.imageSrc" [src]="product.imageSrc" alt="Product Image" class="" />
+      </div>
+      <div class="col-4">
+        <div class="">
+          <div class="">
+            <h2>{{ product.name }}</h2>
+            <p class="description">{{ product.description }}</p>
+            <p class="price"><strong>Price:</strong> ${{ product.price }}</p>
+      
+            <!-- Add to Cart Button -->
+            <button (click)="addToCart(product)" class="btn btn-primary">
+              Add to Cart
+            </button>
+      
+            <!-- Go to Cart Button -->
+            <button (click)="goToCart()" class="btn btn-secondary ms-2">View Cart</button>
+      
+            <!-- Status Message -->
+            <p *ngIf="statusMessage" class="status-message">
+              {{ statusMessage }}
+            </p>
+          </div>
+        </div>
+        
+        
+      </div>
     </div>
   </div>
 

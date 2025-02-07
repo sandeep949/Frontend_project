@@ -29,11 +29,11 @@ export class LoginComponent implements OnInit {
         console.log("Response received:", res);
 
         // Store the access token
-        localStorage.setItem('token', res.access_token);
+        sessionStorage.setItem('token', res.access_token);
         let token:any = JSON.parse(atob(res.access_token.split('.')[1]));
 
         // Optionally store the refresh token (if needed)
-        localStorage.setItem('refresh_token', res.refresh_token);
+        sessionStorage.setItem('refresh_token', res.refresh_token);
 
         // Reset the form and navigate to the dashboard
         this.profileForm.reset();

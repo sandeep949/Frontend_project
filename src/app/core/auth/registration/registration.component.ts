@@ -39,8 +39,8 @@ export class RegistrationComponent implements OnInit{
       // Make the API request
       this.service.post(this.profileForm.value, "auth/register").subscribe(
         (res: any) => {
-          localStorage.setItem('token', res.token); // Save authentication token
-          localStorage.setItem('refresh_token', res.refresh_token);
+          sessionStorage.setItem('token', res.token); // Save authentication token
+          sessionStorage.setItem('refresh_token', res.refresh_token);
           // Reset the form and navigate to the dashboard
           this.profileForm.reset();
           this.router.navigate(['/user-dashboard']);

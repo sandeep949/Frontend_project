@@ -1,34 +1,81 @@
-<p>Orders List</p>
+<p-table
+  [value]="products"
+  dataKey="id"
+  [tableStyle]="{ 'min-width': '60rem' }"
+>
+  <!-- <ng-template #caption>
+            <div class="flex flex-wrap justify-end gap-2">
+                <p-button label="Expand All" icon="pi pi-plus" text (onClick)="expandAll()" />
+                <p-button label="Collapse All" icon="pi pi-minus" text (onClick)="collapseAll()" />
+            </div>
+        </ng-template> -->
+  <ng-template #header>
+    <tr>
+      <th style="width: 5rem"></th>
+      <th pSortableColumn="name">ID</th>
 
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th>Order ID</th>
-                <!-- <th>Product Name</th> -->
-                <!-- <th>Quantity</th>
-                <th>Total Price</th> -->
-                <th>Status</th>
-                <th>Order Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of orders">
-                <td>{{ item.id }}</td>
-                <!-- <td>{{ item.productName }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>${{ item.totalPrice | number: '1.2-2' }}</td> -->
+      <th pSortableColumn="price">UserId <p-sortIcon field="price" /></th>
+      <th pSortableColumn="category">Status <p-sortIcon field="category" /></th>
+      <th pSortableColumn="rating">Order Date <p-sortIcon field="rating" /></th>
+      <th>Total Price</th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-product let-expanded="expanded">
+    <tr>
+      <td>
+        <p-button
+          type="button"
+          pRipple
+          [pRowToggler]="product"
+          [text]="true"
+          [rounded]="true"
+          [plain]="true"
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+        />
+      </td>
+      <td>{{ product.id }}</td>
+      <!-- <td><img [src]="'https://primefaces.org/cdn/primeng/images/demo/product/' + product.image" [alt]="product.name" width="50" class="shadow-lg" /></td> -->
+      <td>{{ product.userId }}</td>
+      <td>{{ product.status }}</td>
+
+      <td>
+        {{ product.orderDate }}
+      </td>
+      <td>{{ product.totalPrice }}</td>
+    </tr>
+  </ng-template>
+  <ng-template #expandedrow let-product>
+    <tr>
+      <td colspan="7">
+        <div class="p-4">
+          <p-table [value]="product.items" dataKey="id">
+            <ng-template #header>
+              <tr>
+                <th pSortableColumn="id">Id <p-sortIcon field="price" /></th>
+                <th>Image</th>
+                <th>Product Id</th>
+                <th>Quantity</th>
+                <th>Price</th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-order>
+              <tr>
+                <td>{{ order.id }}</td>
                 <td>
-                    <span [ngClass]="{
-                        'text-success': item.status === 'Completed',
-                        'text-warning': item.status === 'Pending',
-                        'text-danger': item.status === 'Cancelled'
-                    }">
-                        {{ item.status }}
-                    </span>
+                    <div class="table-img-resize">
+                        <img [src]="order.imageSrc" alt="Order Image">
+                    </div>
+                    
+
                 </td>
-                <td>{{ item.orderDate | date: 'medium' }}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+                <td>{{ order.productId }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.price }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

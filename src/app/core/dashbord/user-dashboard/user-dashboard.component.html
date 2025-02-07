@@ -15,12 +15,12 @@
 
   <div class="row">
     <!-- Loop through products returned by the API -->
-    <div class="col-md-4" *ngFor="let product of products">
+    <div class="col-md-3 col-12" *ngFor="let product of products">
       <div class="card mb-4 shadow-sm">
-        <img [src]="'data:image/jpg;base64,'+product.imageData" />
+        <img [src]="'data:image/jpg;base64,'+product.imageData" class="image-resize"/>
        
         <div class="card-body">
-          <h5 class="card-title">{{ product.title }}</h5>
+          <h5 class="card-title">{{ product.name }}</h5>
           <p class="card-text">
             {{ product.description }}
           </p>

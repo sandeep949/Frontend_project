@@ -1,43 +1,54 @@
-<div class="cart-container">
+<!-- <div class="cart-container">
   <h2>Your Cart</h2>
 
-  <!-- Loader -->
+
   <div *ngIf="isLoading" class="loader">Loading cart items...</div>
 
-  <!-- Cart Items -->
+
   <div *ngIf="!isLoading && products.length > 0">
     <div *ngFor="let item of products" class="cart-item">
-      <!-- Product Image -->
-      <img *ngIf="item?.imageSrc" 
-           [src]="item.imageSrc" 
-           alt="Product Image" 
-           width="100" 
-           height="100" 
-           (error)="onImageError(item.product)" />
+   
+      <img
+        *ngIf="item?.imageSrc"
+        [src]="item.imageSrc"
+        alt="Product Image"
+        width="100"
+        height="100"
+        (error)="onImageError(item.product)"
+      />
 
-      <!-- Product Details -->
+  
       <div class="cart-details">
         <h3>{{ item.name }}</h3>
         <p><strong>Price:</strong> ${{ item.price }}</p>
 
-        <!-- Quantity Dropdown -->
+   
         <label for="quantity">Quantity:</label>
-        <select [value]="item.quantity" (change)="updateQuantity(item, $event)">
-          <option *ngFor="let qty of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [value]="qty">
+        <select
+          #quantity
+          [value]="item.quantity"
+          (change)="calculateTotalPrice(item.id, quantity.value)"
+        >
+          <option
+            *ngFor="let qty of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+            [value]="qty"
+          >
             {{ qty }}
           </option>
         </select>
-       
-      <!-- Remove Button -->
-      <button class="remove-btn" (click)="removeFromCart(item.id)">Remove</button>
+
+    
+        <button class="remove-btn" (click)="removeFromCart(item.id)">
+          Remove
+        </button>
+      </div>
     </div>
   </div>
-  </div>
 
-  <!-- Total Price -->
+
   <p><strong>Total Price:</strong> ${{ totalPrice }}</p>
 
-  <!-- Empty Cart Message -->
+  
   <div *ngIf="!isLoading && products.length === 0" class="empty-cart">
     <p>Your cart is empty.</p>
   </div>
@@ -47,8 +58,111 @@
     <p>Your order has been placed successfully!</p>
   </div>
 
-  <!-- Checkout Button -->
+  
   <div *ngIf="products.length > 0">
     <button class="checkout-btn" (click)="placeOrder()">Place Order</button>
   </div>
-</div> 
+  <div>
+    <button class="payment">checkout here</button>
+  </div>
+</div> -->
+<h1>My Shopping Cart</h1>
+<div class="row">
+  <div class="left col-7">
+    <div class="products-list mt-2 border" *ngFor="let item of products">
+      <div class="image">
+        <img
+          *ngIf="item?.imageSrc"
+          [src]="item.imageSrc"
+          alt="Product Image"
+          width="100"
+          height="100"
+          (error)="onImageError(item.product)"
+        />
+      </div>
+      <div class="products-description w-100">
+        <div class="d-flex align-items-center w-100 justify-content-between">
+          <h4>{{ item.name ?? "Nike" }}</h4>
+          <h5>$ {{ item.price }}</h5>
+        </div>
+        <div class="d-flex align-items-center justify-content-between">
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            #quantity
+            [value]="item.quantity"
+            (change)="calculateTotalPrice(item.id, quantity.value)"
+          >
+            <option
+              *ngFor="let qty of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
+              [value]="qty"
+            >
+              {{ qty }}
+            </option>
+          </select>
+          <button class="btn btn-danger" (click)="removeFromCart(item.id)">
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="" *ngIf="products.length == 0">
+      <h5>Your Cart is Empty</h5>
+    </div>
+  </div>
+  <div class="right col-5 mt-5">
+    <div class="border mb-2 text-center p-2 me-2">
+      <h6 class="m-0">YOU'VE EARNED FREE SHIPPING</h6>
+    </div>
+    <div class="border mb-2 text-center p-2 me-2">
+      <h6 class="m-0">FREE RETURNS ON ALL QUALIFYING ORDERS.</h6>
+    </div>
+    <div class="">
+      <div class="d-flex align-items-center me-2">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter a promo code"
+        />
+        <button type="button" class="btn btn-primary ms-2">Apply</button>
+      </div>
+    </div>
+    <div class="border my-2 me-2"></div>
+    <div class="d-flex justify-content-between align-items-center me-2">
+      <h6>SUBTOTAL</h6>
+      <h6>${{ totalPrice }}.00</h6>
+    </div>
+    <div class="d-flex justify-content-between align-items-center me-2 mt-2">
+      <h6>SHIPPING</h6>
+      <h6>FREE</h6>
+    </div>
+    <div class="d-flex justify-content-between align-items-center me-2 mt-2">
+      <h6>ESTIMATED SALES TAX</h6>
+      <h6>${{ totalPrice / 25 }}</h6>
+    </div>
+    <div class="border my-2 me-2"></div>
+    <div class="d-flex justify-content-between align-items-center me-2 mt-4">
+      <h6>ESTIMATED TOTAL</h6>
+      <h6>${{ totalPrice + (totalPrice /25) }}</h6>
+    </div>
+    <div class="w-100 pe-2 mt-4">
+      <button
+        class="btn btn-primary w-100 btn-checkout"
+        type="button"
+        (click)="placeOrder()"
+      >
+        CHECKOUT
+      </button>
+    </div>
+    <div class="w-100 pe-2 mt-4">
+      <button class="btn btn-primary w-100 btn-checkout" type="button">
+        G Pay
+      </button>
+    </div>
+    <div class="w-100 pe-2 mt-4">
+      <button class="btn btn-primary w-100 btn-checkout" type="button">
+        Paypal
+      </button>
+    </div>
+  </div>
+</div>

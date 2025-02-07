@@ -21,7 +21,7 @@ export class ProductDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private service: CommonService, private router: Router) {}
 
   ngOnInit(): void {
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
 
   
   

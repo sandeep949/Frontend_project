@@ -20,13 +20,13 @@ describe('authGuard', () => {
   });
 
   it('should allow access if token exists', () => {
-    spyOn(localStorage, 'getItem').and.returnValue('test-token'); // Mock token in localStorage
+    spyOn(sessionStorage, 'getItem').and.returnValue('test-token'); // Mock token in sessionStorage
     expect(guard.canActivate()).toBe(true); // Guard should allow access
     expect(mockRouter.navigate).not.toHaveBeenCalled(); // No redirection should occur
   });
 
   it('should deny access if token does not exist', () => {
-    spyOn(localStorage, 'getItem').and.returnValue(null); // Mock no token in localStorage
+    spyOn(sessionStorage, 'getItem').and.returnValue(null); // Mock no token in sessionStorage
     expect(guard.canActivate()).toBe(false); // Guard should deny access
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/login']); // Redirection should occur
   });
