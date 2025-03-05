@@ -160,6 +160,10 @@ export class CartComponent implements OnInit {
   }
 
   placeOrder(): void {
+    if (this.products.length === 0 || this.totalPrice === 0) {
+      this.statusMessage = 'Your cart is empty. Add items before placing an order.';
+      return;
+  }
     let token: any = JSON.parse(atob(this.tokenDetails.split('.')[1]));
     console.log(this.totalPrice);
     const userId = token.jti;
@@ -190,10 +194,16 @@ export class CartComponent implements OnInit {
 
         this.products = [];
         this.totalPrice = 0; // Reset total price after placing an order
-        this.statusMessage = 'Order placed successfully!';
+        this.statusMessage = 'Order placed successfully! check your orders here';
         this.isOrderPlaced = true;
-        this.router.navigate(['/user-dashboard']);
+        setTimeout(() => {
+          this.products = [];
+          this.totalPrice = 0;
+          this.router.navigate(['/orders']);
+        }, 2000); // Wait 2 seconds before redirecting
+
         this.cdr.detectChanges();
+      
       },
 
       (error) => {

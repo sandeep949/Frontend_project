@@ -1,44 +1,57 @@
-<div class="login-container">
-    <!-- Welcome Back Section -->
+<div class="container">
+  <!-- Left Side: Image -->
+  <div class="left-side">
+    <img src="https://needlestar.com/wp-content/uploads/2024/01/lalokupfer_a_woman_wearing_blue-baggy-jeans-outfit_-ar_23_-_4d125712-c149-468b-bdb6-f4db1dfb6b25_2-800x1200.png" alt="Login Illustration" />
+  </div>
+
+  <!-- Right Side: Login Form -->
+  <div class="right-side">
     <div class="welcome-back">
-      <h1>Welcome Back!</h1>
+      <h1><Nav>Nammaste!!</Nav></h1>
+      <h1><Nav>hoOdY</Nav></h1>
       <p class="subtitle">We're glad to see you again. Please login to continue.</p>
     </div>
-  
-    <!-- Login Box -->
-    <div class="login-box">
-      <h2>Login</h2>
+
+    <div class="login-container">
       <form [formGroup]="profileForm" class="login-form">
         <!-- Username Field -->
         <div class="form-group">
-          <label for="username">Username</label>
           <input
             type="email"
             id="username"
             name="username"
-            placeholder="Enter your email"
+            placeholder="Email"
             required
             formControlName="username"
           />
         </div>
+
         <!-- Password Field -->
         <div class="form-group">
-          <label for="password">Password</label>
           <input
             type="password"
             id="password"
             name="password"
-            placeholder="Enter your password"
+            placeholder="Password"
             required
             formControlName="password"
           />
         </div>
-        <!-- Submit Button -->
-        <button type="button" class="btn-login" (click)="submit()">Login</button>
 
-        <!-- Register Button -->
-        <button type="button" class="btn-register" (click)="navigateToRegister()">If you new to here Register here</button>
+        <!-- Extra Options -->
+        <div class="extra-options">
+          <label><input type="checkbox" /> Remember me</label>
+          <a href="#">Forgot password</a>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="button" class="btn-login" (click)="submit()">Sign In</button>
+
+        <!-- Register Link -->
+        <div class="register-link">
+          Don't have an account? <a (click)="navigateToRegister()">Sign Up</a>
+        </div>
       </form>
     </div>
   </div>
-  
+</div>

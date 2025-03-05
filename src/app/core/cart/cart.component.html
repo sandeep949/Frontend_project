@@ -151,8 +151,12 @@
         type="button"
         (click)="placeOrder()"
       >
-        CHECKOUT
+        PLACE ORDER
       </button>
+      <div *ngIf="statusMessage" class="alert alert-success mt-3">
+        {{ statusMessage }}
+      </div>
+      
     </div>
     <div class="w-100 pe-2 mt-4">
       <button class="btn btn-primary w-100 btn-checkout" type="button">

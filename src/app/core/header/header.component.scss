@@ -1,0 +1,64 @@
+/* Navbar Styling */
+.navbar {
+    background: linear-gradient(135deg, #bfacaf, #464042); /* Gradient Background */
+    padding: 6px 25px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Brand Name (hoOdY) */
+.navbar .nav-link.active {
+    font-size: 32px;
+    font-weight: bold;
+    color: rgb(132, 79, 79) !important;
+}
+
+/* Navbar Links */
+.navbar-nav .nav-link {
+    color: white !important;
+    font-size: 16px;
+    font-weight: 500;
+    margin-right: 15px;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.navbar-nav .nav-link:hover {
+    color: #ffd700 !important; /* Gold Hover Effect */
+}
+
+/* Logout Button */
+.navbar-nav .nav-link:last-child {
+    background-color: rgba(203, 25, 25, 0.2);
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: background 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link:last-child:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Navbar Toggler */
+.navbar-toggler {
+    border: none;
+    background: white;
+    padding: 6px 8px;
+    border-radius: 6px;
+}
+
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar-nav {
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .navbar-nav .nav-link {
+        display: block;
+        padding: 10px;
+    }
+}

@@ -1,6 +1,6 @@
 
-<div class="container mt-4">
-  <!-- Search Bar -->
+<!-- <div class="container mt-4">
+
   <div class="row mb-4">
     <div class="col-12">
       <input style="width: 400px;"
@@ -14,7 +14,6 @@
   </div>
 
   <div class="row">
-    <!-- Loop through products returned by the API -->
     <div class="col-md-3 col-12" *ngFor="let product of products">
       <div class="card mb-4 shadow-sm">
         <img [src]="'data:image/jpg;base64,'+product.imageData" class="image-resize"/>
@@ -36,4 +35,44 @@
       </div>
     </div>
   </div>
+</div> -->
+
+<div class="container mt-4">
+  <!-- Centered & Stylish Search Bar -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="search-container">
+        <input 
+          type="text"
+          class="form-control"
+          placeholder="🔍 Search for amazing products..."
+          [(ngModel)]="searchQuery"
+          (input)="searchProducts()"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Loop through products -->
+    <div class="col-md-3 col-12" *ngFor="let product of products">
+      <div class="card mb-4 shadow-sm">
+        <img [src]="'data:image/jpg;base64,'+product.imageData" class="image-resize"/>
+       
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <button class="btn btn-primary" (click)="viewProductDetails(product)">
+              View Details
+            </button>
+            <small class="text-muted">
+              {{ product.price ? (product.price | currency: 'USD') : 'Price not available' }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
